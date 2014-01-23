@@ -2,7 +2,7 @@ var express = require('express');
 var ArticleProvider = require('./articleprovider-memory').ArticleProvider;
 
 var app =express();// module.exports = express.createServer();
-
+module.exports=app;
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -23,10 +23,11 @@ app.configure('production', function(){
 
 var articleProvider= new ArticleProvider();
 
-app.get('/', function(req, res){
-  articleProvider.findAll(function(error, docs){
-      res.send(docs);
-  });
-})
+app.get('/', function(req, res){    
+	articleProvider.findAll( 
+	function(error,docs){        
+	res.render('index.jade', {title: 'Blog', articles:docs});    
+	})
+});
 
 app.listen(3000);
